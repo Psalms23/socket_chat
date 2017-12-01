@@ -1,5 +1,5 @@
-# Simple Chat API
-A simple chat API for the coderfactory blog article
+# Jchat
+A simple chat working with sockets :)
 
 # Set up
 1. create a mongodb database and name it ` chat `
@@ -10,3 +10,10 @@ Start the API by running:
 ```
 npm run serve
 ```
+
+# Author
+Jay Roslindo Donguines <creeped12@gmail.com>
+
+# License
+
+MIT (On the process xD)
