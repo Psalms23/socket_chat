@@ -5,19 +5,19 @@
     <!--  This file has been downloaded from bootdey.com    @bootdey on twitter -->
     <!--  All snippets are MIT license http://bootdey.com/license -->
     <!-- 
-    	The codes are free, but we require linking to our web site.
-    	Why to Link?
-    	A true story: one girl didn't set a link and had no decent date for two years, and another guy set a link and got a top ranking in Google! 
-    	Where to Put the Link?
-    	home, about, credits... or in a good page that you want
-    	THANK YOU MY FRIEND!
+        The codes are free, but we require linking to our web site.
+        Why to Link?
+        A true story: one girl didn't set a link and had no decent date for two years, and another guy set a link and got a top ranking in Google! 
+        Where to Put the Link?
+        home, about, credits... or in a good page that you want
+        THANK YOU MY FRIEND!
     -->
     <title>Jchat</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
-    	body{
+        body{
     margin-top:20px;
     background:#eee;
 }
@@ -301,7 +301,7 @@
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script type="text/javascript">
-	$(function(){
+    $(function(){
     $(".chat").niceScroll();
 })
 </script>
@@ -359,7 +359,7 @@ function makeRoomId(my_id, receiver){
             $('.answer').remove();
             console.log(envelope, 'fetched new message')
             $.each(envelope, function(index, value){
-                if(value.receiver_id === my_id.toString()){
+                if(value.sender_id === my_id.toString()){
                     $('#chat-box').prepend('<div class="answer right"><div class="avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name"><div class="status online"></div></div><div class="name">'+value.sender_id+'</div><div class="text">'+value.message+'</div><div class="time">'+moment(value.date).fromNow()+'</div></div>');
                 }else{
                    $('#chat-box').prepend('<div class="answer left"><div class="avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name"><div class="status online"></div></div><div class="name">'+value.sender_id+'</div><div class="text">'+value.message+'</div><div class="time">'+moment(value.date).fromNow()+'</div></div>');
@@ -378,10 +378,10 @@ function makeRoomId(my_id, receiver){
             }else{
                 $('.answer').remove();
                 $.each(envelope.msg, function(index, value){
-                    if(value.sender_id === receiver_id.toString()){
-                        $('#chat-box').prepend('<div class="answer left"><div class="avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name"><div class="status online"></div></div><div class="name">'+value.sender_id+'</div><div class="text">'+value.message+'</div><div class="time">'+moment(value.date).fromNow()+'</div></div>');
+                    if(value.sender_id === my_id.toString()){
+                        $('#chat-box').prepend('<div class="answer right"><div class="avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name"><div class="status online"></div></div><div class="name">'+value.sender_id+'</div><div class="text">'+value.message+'</div><div class="time">'+moment(value.date).fromNow()+'</div></div>');
                     }else{
-                       $('#chat-box').prepend('<div class="answer right"><div class="avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name"><div class="status online"></div></div><div class="name">'+value.sender_id+'</div><div class="text">'+value.message+'</div><div class="time">'+moment(value.date).fromNow()+'</div></div>');
+                       $('#chat-box').prepend('<div class="answer left"><div class="avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name"><div class="status online"></div></div><div class="name">'+value.sender_id+'</div><div class="text">'+value.message+'</div><div class="time">'+moment(value.date).fromNow()+'</div></div>');
                     }   
                 });
             }

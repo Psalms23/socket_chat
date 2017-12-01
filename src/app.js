@@ -40,13 +40,49 @@ socketIo.sockets.on('connection', socket => {
   var receiver_id;
   var room_messages = [];
   var room_id = 0;
-  console.log(`${email} connected`);
+
+  function sendNewConvo(receiver, envelope){
+    socket.to(receiver).emit('new:convo', envelope);
+    socket.to(receiver).emit('server:welcome', envelope);
+  }
+  function sendNotification(receiver, email, connected){
+    socket.to(searchSocketId(receiver, connected)).emit('notify:me', {notify:'New message from '+email});
+
+  }
+  function sendBackData(room, msg){
+    var envelope = {
+      msg:msg,
+      _id:room
+    };
+    socketIo.sockets.in(room).emit('room:messages', envelope);
+  }
+
+  function searchSocketId(users_id, connected){
+    for (var i=0; i < connected.length; i++) {
+        if (connected[i].users_id === users_id) {
+            return connected[i].socket_id;
+        }
+    }
+  }
+
+  function updateConnection(user, connected){
+    var i = 0;
+    while( i != connected.length){
+      if( connected[i].users_id.toString() === user.toString()){
+        connected[i].socket_id = socket.id.toString();
+        console.log(connected[i].users_id, 'updated connection');
+        return true;
+        break;
+      }
+      return false;
+      i++;
+    }
+  }
 
   mongo.connect('mongodb://localhost:27017/chat', function(err, db){
     if (err){ console.log('Error: '+err);}
     else{
       var collection = db.collection('messages');
-      console.log(`database connected: socket id ${socket.id}`);
       collection.aggregate([
         { $match: 
           {$or: [
@@ -63,34 +99,30 @@ socketIo.sockets.on('connection', socket => {
         else{
           var rooms_convo = [];
           if(result.length == 0) {
-            console.log('no room convo found');
+
           }else{
             rooms_convo = result;
           }        
-          console.log(rooms_convo, ' hits');
           console.log('welcome to server');
           socket.emit('server:welcome', rooms_convo);
 
         }
       });
       //push users data to connected users
-      if ( updateConnection(users_id, connected_users )){
-        console.log('User is already connected');
-      }else{
-        connected_users.push({'users_id':users_id, 'email':email, 'socket_id': socket.id})
+      var check_con = updateConnection(users_id, connected_users );
+      //console.log( check_con, 'check connection');
+      if ( check_con === false || typeof check_con === 'undefined'){
+        connected_users.push({'users_id':users_id, 'email':email, 'socket_id': socket.id});
       }
-      console.log(connected_users, 'connected users');
-      console.log(connected_users.length, 'connected length');
+      //console.log(connected_users, 'connected users');
       console.log('Connected: %s users connected', connected_users.length);
     }
   });
   
   socket.on('join:room', details => {
-    console.log(details.room, 'room_id');
     room_id = details.room;
     receiver_id = details.receiver_id;
     socket.join(room_id.toString());
-    console.log(`${users_id} has joined room ${details.room}`);
     mongo.connect('mongodb://localhost:27017/chat', function(err, db){
       if (err) { console.log('Error: '+err.message); }
       else{
@@ -111,7 +143,6 @@ socketIo.sockets.on('connection', socket => {
                 } 
               }); 
             }
-          console.log(result, 'room');
           }
         }); 
       }
@@ -142,7 +173,7 @@ socketIo.sockets.on('connection', socket => {
                   console.log(`Message sent. From ${users_id} to room ${room_id}`);
                 }
               });
-              sendNotification(envelope.receiver_id, email);
+              sendNotification(envelope.receiver_id, email, connected_users);
             }
           });
         });
@@ -153,56 +184,19 @@ socketIo.sockets.on('connection', socket => {
     console.log(receiver_socket_id, 'new conv');
     sendNewConvo(receiver_socket_id.toString(), envelope);
   });
-  function sendNewConvo(receiver, envelope){
-    console.log(`sending new convo to ${envelope.receiver_id}`)
-    socket.to(receiver).emit('new:convo', envelope);
-    socket.to(receiver).emit('server:welcome', envelope);
-  }
-  function sendNotification(receiver_id, email){
-    socket.to(searchSocketId(receiver_id, connected_users)).emit('notify:me', {notify:'New message from '+email});
-
-  }
-  function sendBackData(room, msg){
-    var envelope = {
-      msg:msg,
-      _id:room
-    };
-    socketIo.sockets.in(room).emit('room:messages', envelope);
-    console.log(msg, 'room messages'); 
-  }
-
-  function searchSocketId(users_id, connected){
-    for (var i=0; i < connected.length; i++) {
-        if (connected[i].users_id === users_id) {
-            return connected[i].socket_id;
-        }
-    }
-  }
-
-  function updateConnection(users_id, connected){
-    for( var i in connected){
-      if( connected[i].users_id === users_id){
-        connected_users[i].socket_id = socket.id;
-        return true;
-        break;
-      }else{
-        return false;
-      }
-    }
-  }
-
-
-
+  
 
   socket.on('disconnect', () => {
-    console.log(`${users_id} disconnected`);
-    var idx = connected_users.indexOf( users_id );
-    if(idx > -1) {
-          connected_users.splice(idx,1);
+    for (var i =0; i < connected_users.length; i++){
+      if (connected_users[i].users_id === users_id) {
+        connected_users.splice(i,1);
+        break;
+      }
     }
     console.log('Connected: %s users connected', connected_users.length);
-    socket.emit('server:update_status', users);
-
+    console.log(`${email} has disconnected to the server`);
+    //socket.emit('server:update_status', users);
+  
   });
 });
 
