@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>api server</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font: 13px Helvetica, Arial; }
+  form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+  form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+  form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+  #messages { list-style-type: none; margin: 0; padding: 0; }
+  #messages li { padding: 5px 10px; }
+  #messages li:nth-child(odd) { background: #eee; }
+  #messages { margin-bottom: 40px }
+</style>
+</head>
+<body>
+<h1 id="status">Offline</h1>
+<p>Online users: <span id="online_users"></span></p>
+<ul id="messages">
+</ul>
+<form>
+	<input id="m" autocomplete="off" placeholder="message"></input><button id="send">Send</button>
+</form>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+  $(function () {
+    var item = {};
+    
+    var socket = io('http://localhost:4008/', {
+      query:{
+        email:'creeped12@admin.com',
+        id:1
+      }
+    });
+    socket.on('server:welcome', data => {
+      $('#status').text('Online');
+      $('#online_users').text(data.online_users);
+      console.log(data);
+      $.each(data.messages, function(index, value){
+        $('#messages').append('<li>'+value.messages+'</li>');
+      });
+    });
+    //this will emit data to server
+    $('#send').on('click',function(){
+      item = {
+          header:{
+            receiver_id:4
+          },
+        body: $('#m').val()
+      };
+      socket.emit('room:messages', item);
+      $('#m').val('');
+      return false;
+    });
+
+    socket.on('send:message', function(data){
+      //this will change user's status if socket.io is triggered
+      alert(data.status);
+      console.log(data, 'message');
+      $('#messages').append('<li>'+data.message+'</li>');
+    });
+  });
+</script>
+</body>
+</html>

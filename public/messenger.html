@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--  This file has been downloaded from bootdey.com    @bootdey on twitter -->
+    <!--  All snippets are MIT license http://bootdey.com/license -->
+    <!-- 
+    	The codes are free, but we require linking to our web site.
+    	Why to Link?
+    	A true story: one girl didn't set a link and had no decent date for two years, and another guy set a link and got a top ranking in Google! 
+    	Where to Put the Link?
+    	home, about, credits... or in a good page that you want
+    	THANK YOU MY FRIEND!
+    -->
+    <title>Jchat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+    	body{
+    margin-top:20px;
+    background:#eee;
+}
+.row.row-broken {
+    padding-bottom: 0;
+}
+.col-inside-lg {
+    padding: 20px;
+}
+.chat {
+    height: calc(100vh - 180px);
+}
+.decor-default {
+    background-color: #ffffff;
+}
+.chat-users h6 {
+    font-size: 20px;
+    margin: 0 0 20px;
+}
+.chat-users .user {
+    position: relative;
+    padding: 0 0 0 50px;
+    display: block;
+    cursor: pointer;
+    margin: 0 0 20px;
+}
+.chat-users .user .avatar {
+    top: 0;
+    left: 0;
+}
+.chat .avatar {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+}
+.chat .avatar img {
+    display: block;
+    border-radius: 20px;
+    height: 100%;
+}
+.chat .avatar .status.off {
+    border: 1px solid #5a5a5a;
+    background: #ffffff;
+}
+.chat .avatar .status.online {
+    background: #4caf50;
+}
+.chat .avatar .status.busy {
+    background: #ffc107;
+}
+.chat .avatar .status.offline {
+    background: #ed4e6e;
+}
+.chat-users .user .status {
+    bottom: 0;
+    left: 28px;
+}
+.chat .avatar .status {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    position: absolute;
+}
+.chat-users .user .name {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.chat-users .user .mood {
+    font: 200 14px/20px "Raleway", sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*****************CHAT BODY *******************/
+.chat-body h6 {
+    font-size: 20px;
+    margin: 0 0 20px;
+}
+.chat-body .answer.left {
+    padding: 0 0 0 58px;
+    text-align: left;
+    float: left;
+}
+.chat-body .answer {
+    position: relative;
+    max-width: 600px;
+    overflow: hidden;
+    clear: both;
+}
+.chat-body .answer.left .avatar {
+    left: 0;
+}
+.chat-body .answer .avatar {
+    bottom: 36px;
+}
+.chat .avatar {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+}
+.chat .avatar img {
+    display: block;
+    border-radius: 20px;
+    height: 100%;
+}
+.chat-body .answer .name {
+    font-size: 14px;
+    line-height: 36px;
+}
+.chat-body .answer.left .avatar .status {
+    right: 4px;
+}
+.chat-body .answer .avatar .status {
+    bottom: 0;
+}
+.chat-body .answer.left .text {
+    background: #ebebeb;
+    color: #333333;
+    border-radius: 8px 8px 8px 0;
+}
+.chat-body .answer .text {
+    padding: 12px;
+    font-size: 16px;
+    line-height: 26px;
+    position: relative;
+}
+.chat-body .answer.left .text:before {
+    left: -30px;
+    border-right-color: #ebebeb;
+    border-right-width: 12px;
+}
+.chat-body .answer .text:before {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    border: 18px solid transparent;
+    border-bottom-width: 0;
+}
+.chat-body .answer.left .time {
+    padding-left: 12px;
+    color: #333333;
+}
+.chat-body .answer .time {
+    font-size: 16px;
+    line-height: 36px;
+    position: relative;
+    padding-bottom: 1px;
+}
+/*RIGHT*/
+.chat-body .answer.right {
+    padding: 0 58px 0 0;
+    text-align: right;
+    float: right;
+}
+
+.chat-body .answer.right .avatar {
+    right: 0;
+}
+.chat-body .answer.right .avatar .status {
+    left: 4px;
+}
+.chat-body .answer.right .text {
+    background: #7266ba;
+    color: #ffffff;
+    border-radius: 8px 8px 0 8px;
+}
+.chat-body .answer.right .text:before {
+    right: -30px;
+    border-left-color: #7266ba;
+    border-left-width: 12px;
+}
+.chat-body .answer.right .time {
+    padding-right: 12px;
+    color: #333333;
+}
+
+/**************ADD FORM ***************/
+.chat-body .answer-add {
+    clear: both;
+    position: relative;
+    margin: 20px -20px -20px;
+    padding: 20px;
+    background: #46be8a;
+}
+.chat-body .answer-add input {
+    border: none;
+    background: none;
+    display: block;
+    width: 100%;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 0;
+    color: #ffffff;
+}
+.chat input {
+    -webkit-appearance: none;
+    border-radius: 0;
+}
+.chat-body .answer-add .answer-btn-1 {
+    right: 56px;
+}
+.chat-body .answer-add .answer-btn {
+    display: block;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    position: absolute;
+    top: 50%;
+    margin-top: -18px;
+}
+.chat-body .answer-add .answer-btn-2 {
+    right: 20px;
+}
+.chat input::-webkit-input-placeholder {
+   color: #fff;
+}
+
+.chat input:-moz-placeholder { /* Firefox 18- */
+   color: #fff;  
+}
+
+.chat input::-moz-placeholder {  /* Firefox 19+ */
+   color: #fff;  
+}
+
+.chat input:-ms-input-placeholder {  
+   color: #fff;  
+}
+.chat input {
+    -webkit-appearance: none;
+    border-radius: 0;
+}
+    </style>
+</head>
+<body>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.6.8-fix/jquery.nicescroll.min.js"></script>
+<div class="content container-fluid bootstrap snippets">
+      <div class="row row-broken">
+        <div class="col-sm-3 col-xs-12">
+          <div class="col-inside-lg decor-default chat" style="overflow: hidden; outline: none;" tabindex="5000">
+            <div id="users" class="chat-users">
+              <h6 id="my_email">Online</h6>
+              <div class="input-group">
+                  <span class="input-group-btn">
+                    <button class="btn btn-secondary" id="new_message" type="button">New Message</button>
+                  </span>
+                  <input class="form-control" id="new_receiver"></input>
+              </div>
+              <hr id="users_border">
+                <!-- your conversations here -->
+                
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-9 col-xs-12 chat" style="overflow: hidden; outline: none;" tabindex="5001">
+          <div class="col-inside-lg decor-default">
+            <div id="chat-box" class="chat-body">
+              <h6>Mini Chat</h6>
+              <!-- messages -->
+              
+              <!-- ./messages -->
+              <!-- form -->
+              <div class="answer-add">
+                <input id="message" placeholder="Write a message">
+                <button id="send" class="answer-btn answer-btn-2 glyphicon-glyphicon-send" type="submit">-></button>
+              </div>
+              <!-- ./form -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script type="text/javascript">
+	$(function(){
+    $(".chat").niceScroll();
+})
+</script>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="/public/moment.min.js"></script>
+<script type="text/javascript">
+function sortNumber(a,b){
+    return a - b;
+}
+
+var users = [
+    { id:1, email: 'user1@email.com'},
+    { id:2, email: 'user2@email.com'},
+    { id:3, email: 'user3@email.com'},
+    { id:4, email:'user4@email.com'},
+    { id:5, email:'user5@email.com'}
+];
+function makeRoomId(my_id, receiver){
+    var data = [my_id, receiver];
+    return data.sort(sortNumber).join("");
+}
+    $(function(){
+        var url = window.location.href;
+        var receiver_id;
+        var room;
+        var item = {};
+        var my_id = window.location.pathname.substr(1);
+        var my_user = users.filter(function(user){
+            return my_id == user.id
+        })[0];
+
+
+        var room = makeRoomId(my_id, receiver_id)
+        $('#my_email').html(my_user.email)
+        console.log(room, 'room number');
+        console.log(my_id, 'my id');
+        var socket = io('http://localhost:4008', {
+            query:{
+                email:my_user.email,
+                id:my_id,
+                receiver_id:receiver_id
+            }
+        });
+
+        $('#send').on('click', function(){
+            var msg = $('#message').val();
+            socket.emit('send:chat', msg);
+            $('#message').val('');
+            return false;
+        });
+        socket.on('notify:me', data => {
+            alert(data.notify);
+        });
+        socket.on('send:chat', envelope => {
+            $('.answer').remove();
+            console.log(envelope, 'fetched new message')
+            $.each(envelope, function(index, value){
+                if(value.receiver_id === my_id.toString()){
+                    $('#chat-box').prepend('<div class="answer right"><div class="avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name"><div class="status online"></div></div><div class="name">'+value.sender_id+'</div><div class="text">'+value.message+'</div><div class="time">'+moment(value.date).fromNow()+'</div></div>');
+                }else{
+                   $('#chat-box').prepend('<div class="answer left"><div class="avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name"><div class="status online"></div></div><div class="name">'+value.sender_id+'</div><div class="text">'+value.message+'</div><div class="time">'+moment(value.date).fromNow()+'</div></div>');
+                }   
+            });
+        });
+        
+        socket.on('room:messages', envelope => {
+            console.log($('#'+envelope._id+'.user').length, 'new room');
+            if ( $('#'+envelope._id+'.user').length == 0 ){
+                //$('#'+envelope._id+'.user').remove();
+                $('#users').append('<div class="user" id="'+envelope._id+'"><div class="avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name"><div class="status off"></div></div><div class="name">Room '+envelope._id+'</div><div class="mood">'+0+' messages</div></div>');
+                
+                envelope['receiver_id'] = getReceiverIdFromRoom(envelope._id, my_id);
+                console.log(envelope.length, 'new convo loaded');
+            }else{
+                $('.answer').remove();
+                $.each(envelope.msg, function(index, value){
+                    if(value.sender_id === receiver_id.toString()){
+                        $('#chat-box').prepend('<div class="answer left"><div class="avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name"><div class="status online"></div></div><div class="name">'+value.sender_id+'</div><div class="text">'+value.message+'</div><div class="time">'+moment(value.date).fromNow()+'</div></div>');
+                    }else{
+                       $('#chat-box').prepend('<div class="answer right"><div class="avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name"><div class="status online"></div></div><div class="name">'+value.sender_id+'</div><div class="text">'+value.message+'</div><div class="time">'+moment(value.date).fromNow()+'</div></div>');
+                    }   
+                });
+            }
+            
+        });
+        function getReceiverIdFromRoom(room, user_id){
+             var user_id_location = room.toString().indexOf(user_id);
+            var str_room = room.toString();
+            room_index = str_room.lastIndexOf(str_room);
+            receiver_id = str_room.slice(0, user_id_location) + str_room.slice(user_id_location+1);
+            return receiver_id;
+        }
+        socket.on('server:welcome', data => {
+            console.log(data.length, 'welcome to server');
+
+            if( data.length === 0 ){
+                $('.user').remove();
+                $('#users').append('<div class="user">No conversation found.</div>');
+            }else if( data.length === undefined ){
+                console.log('fetch undefined shit');
+            }else if( data.length ){
+                $.each(data, function(index, value){
+                    if ( $('#'+value._id+'.user')){
+                        $('#'+value._id+'.user').remove();
+                        $('#users').append('<div class="user" id="'+value._id+'"><div class="avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name"><div class="status off"></div></div><div class="name">Room '+value._id+'</div><div class="mood">'+value.messages+' messages</div></div>');
+                        console.log(value, 'value');
+                    }
+                });    
+            }
+              
+            
+           
+            
+            
+        });
+        
+        $(document).on("click","div.user",function() {
+            room = $(this).attr('id');
+            var user_id_location = room.toString().indexOf(my_id);
+            var str_room = room.toString();
+            room_index = str_room.lastIndexOf(str_room);
+            receiver_id = str_room.slice(0, user_id_location) + str_room.slice(user_id_location+1);
+            var details = {
+                receiver_id:receiver_id.toString(),
+                room:room.toString()
+            };
+            socket.emit('join:room', details);
+        });
+        $('#new_message').on('click', function(){
+            receiver_id = $('#new_receiver').val()
+            $('#new_receiver').val('');
+            var details = {
+                receiver_id:receiver_id,
+                room:makeRoomId(my_id, receiver_id),
+                _id:makeRoomId(my_id, receiver_id),
+                messages:0,
+                from:my_id
+            };
+            socket.emit('join:room', details);
+            socket.emit('new:convo', details);
+            console.log(details, 'new convo');
+            return false;
+        });
+
+        socket.on('new:convo', data => {
+            console.log(data, 'new convo nadawat');
+            alert('new convo');
+            var details = {
+                receiver_id:data.from,
+                room:data.room.toString()
+            };
+            socket.emit('join:room', details);
+            if( data.length == 0 ){
+                $('.user').remove();
+                $('#users').append('<div class="user">No conversation found.</div>');
+            }
+            $('#'+data._id+'.user').remove();
+            if ( $('#'+data._id+'.user')){  
+                $('#users').append('<div class="user" id="'+data._id+'"><div class="avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name"><div class="status off"></div></div><div class="name">Room '+data._id+'</div><div class="mood">'+data.messages+' messages</div></div>');
+                console.log(data, 'value');
+            }
+        });
+        /*socket.on('reading:message', data => {
+            $.each(data, function(index, value){
+                if(value._id.sender_id === receiver_id){
+                    $('#chat-box').prepend('<div class="answer left"><div class="avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name"><div class="status online"></div></div><div class="name">'+value._id.sender_id+'</div><div class="text">'+value._id.message+'</div><div class="time">5 min ago</div></div>');
+                }else{
+                   $('#chat-box').prepend('<div class="answer right"><div class="avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name"><div class="status online"></div></div><div class="name">'+value._id.sender_id+'</div><div class="text">'+value._id.message+'</div><div class="time">5 min ago</div></div>');
+                }
+
+                console.log(value);    
+            });
+        });*/
+    });
+</script>
+</body>
+</html>
