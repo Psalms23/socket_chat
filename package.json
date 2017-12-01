@@ -1,9 +1,9 @@
 {
-  "name": "simple-chat-api",
+  "name": "Jchat",
   "version": "1.0.0",
-  "description": "A simple chat api for the coderfactory blog article",
+  "description": "A simple chat working with sockets :)",
   "main": "lib/app.js",
-  "author": "Paul Pagnan <paul@pagnan.com.au>",
+  "author": "Jay Roslindo Donguines <creeped12@gmail.com>",
   "scripts": {
     "start": "node ./lib/app.js",
     "compile": "babel -d lib/ src/",
@@ -25,7 +25,7 @@
     }
   },
   "license": "MIT",
-  "repository": "paul-pagnan/simple-chat-api",
+  "repository": "Psalms23/socket_chat",
   "dependencies": {
     "babel-runtime": "^6.6.1",
     "cors": "^2.8.1",
